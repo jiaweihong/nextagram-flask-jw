@@ -8,5 +8,33 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Homepage</h1>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  <h1>Home</h1>
+
+  {% if current_user.is_authenticated %}
+      {% if current_user.followings %}
+        {% for following in current_user.followings %}
+          <h3>{{following.username}}:</h3>
+          <img src="{{following.profile_image_url}}">
+          <h3>{{following.username}}'s images</h3>
+          {% for image in following.images %}
+            <img src="{{image.image_url}}">
+          {% endfor %}
+        {% endfor %}
+      {% else %}
+        <h3>You are not following anyone! So there is no image to display</h3>
+      {% endif %}
+  {% endif %}
+
+
 {% endblock %}
+

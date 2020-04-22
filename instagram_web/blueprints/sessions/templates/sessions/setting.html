@@ -1,0 +1,38 @@
+{% extends '_layout.html' %}
+
+{% block content %}
+    <h1>Settings</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form action="{{url_for('sessions.update')}}" method='POST'>
+        <div>
+            <label for="username">Set new username:</label>
+            <input type='text' name='username' class="form-control"/>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Update Username!</button>
+        </div>
+    </form>
+
+    <h4>Set profile to public or private:</h4>
+    <form action="{{url_for('sessions.update_is_public')}}" method='POST'>
+        <div>
+            <input type='radio' name='is_public' value="True">
+            <label>Public</label>
+            <input type='radio' name='is_public' value="False">
+            <label>Private</label>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Update Privacy!</button>
+        </div>
+    </form>
+
+{% endblock %}

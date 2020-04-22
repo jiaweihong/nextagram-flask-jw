@@ -1,0 +1,21 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form action="{{url_for('users.profile_image_upload')}}" method='POST' enctype="multipart/form-data"> 
+        {# enctype determines how the data present in the form will be encoded, in this case, it does not encode anything#}
+        <div>
+            <label for="profile_image">Select an image to upload: </label>
+            <input type='file' name='profile_image' class="form-control" /> 
+            <button type="submit">Upload</button>
+    </form>
+{% endblock %}

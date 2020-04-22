@@ -19,11 +19,33 @@
 
     <title>
       {% block title %}
-      {% endblock %}NEXTAGRAM
+      {% endblock %}
     </title>
 
   </head>
   <body>
+    {% block navbar %}
+      {% if current_user.is_authenticated %} {# current_user refers to the object instance, is_authenticated refers to the class that returns true if the user is logged in #}
+        <ul>
+          <li><a href="{{ url_for('home')}}">Nextagram</a></li>
+          <li><a href="{{ url_for('users.profile_page', username=current_user.username)}}">Profile</a></li>
+          <li><a href="{{ url_for('sessions.setting')}}">Settings</a></li>
+          <li><a href="{{ url_for('users.profile_image_upload')}}">Profile Image</a></li>
+          <li><a href="{{ url_for('images.new')}}">Images</a></li>
+          <li><a href="{{ url_for('payments.new')}}">Donate</a></li>
+          <li><a href="{{ url_for('sessions.logout')}}">Logout</a></li>
+        </ul>
+      {% else %}
+        <ul>
+          <li><a href="{{ url_for('home')}}">Nextagram</a></li>
+          <li><a href="{{ url_for('sessions.new')}}">Log In</a></li>
+          <li><a href="{{ url_for('sessions.google_login')}}">Log In via Google</a></li>
+          <li><a href="{{ url_for('users.new')}}">Sign Up</a></li> {# in html, you need to state specifically with with view function you're referring to with a '.' #}
+        </ul>
+      {% endif %}
+    {% endblock %}
+
+
     {% block content %}
     {% endblock %}
     <footer>

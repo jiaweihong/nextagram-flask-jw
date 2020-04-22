@@ -1,0 +1,48 @@
+1) always do migrations when updating models
+2) In flask shell, if models isnt a python file but a folder which holds files which holds the model then you need to import it via 
+   "from models.<filename> import *"
+
+
+Day 3 Questions: Upload Profile Images
+1) Forms:
+   1) What attribute do we need to include into our form tag when posting an image? What does the said attribute do?
+   2) For our input tag, what value do we assign to the type attribute ?
+
+2) Python:
+   1) How do we get the FILE data from our form tag?
+   2) How do we save an image's path?
+   3) How to extract a value from the .env folder?
+   4) Why and how do we use hybrid_property?
+   5) When do we use try and except?
+   6) How does try and except work?
+
+
+Questions: User following User
+1) When joining 2 tables, when and how do you know which column from each table should be combined
+2) What does select() return and how does it look like in if we printed
+3) If there is more than 1 validate(), and self.validate() is called. How does it know which validate to refer to and what role does "self" play?
+
+Quesstions: Oauth
+1) What is the difference between client ID and secret and how are each of them used.
+2) Roughly describe how does Oauth process work and how describe the user's interactions and effects with respect to google's server / your backend and frontend
+
+Questions: Payment
+1) Why can we use render_template/redirect in new() but not in create() specifically when our new.html is javascript
+   # How views work is
+      # 1) When I type in the "url/payments/new" in my browser
+      # 2) It sends the request to views.py (server)
+      # 3) It then runs new(), which returns the html response (in this case render_template) to the html page which WAS on.
+
+   # But in this case, once our payments.new file is loaded on our browser. It is in javascript
+   # So when we try to use return render_template / redirect, it won't understand it because the javascript page is trying to interpret html
+   # so We need to return a javascript response
+2) Roughly describe the process of making a Braintree process
+3) With what field type should you store the amount figure in your database?
+
+Questions: User Images
+1) If I backref a foreign key on a model, How and what happens when I reference the backref?
+2) When should you use hybrid_property?
+
+Questions: Editing personal info
+1) When you return a value from HTML what type does it come in as?
+2) How would you structure your backend code such that you can have 2 seperate forms on the same HTML page? How many functions? How many routes?

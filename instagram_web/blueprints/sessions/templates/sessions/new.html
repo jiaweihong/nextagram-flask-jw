@@ -5,21 +5,17 @@
     <p>{{errors}}</p>
 {% endif %}
 
-<form action="{{url_for('users.create')}}" method = "POST">
+<form action="{{url_for('sessions.create')}}" method='POST'>
     <div>
         <label for="username">Username: </label>
         <input type='text' name='username' class="form-control" />
-    </div>
-    <div>
-        <label for="email">Email: </label>
-        <input type='email' name='email' class="form-control" />
     </div>
     <div>
         <label for="password">Password: </label>
         <input type='password' name='password' class="form-control" />
     </div>
     <div>
-        <button type="submit" class="btn btn-primary">Sign Up!</button>
+        <button type="submit" class="btn btn-primary">Sign In!</button>
     </div>
 </form>
 

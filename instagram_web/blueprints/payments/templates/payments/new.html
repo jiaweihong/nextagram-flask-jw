@@ -1,0 +1,68 @@
+<!-- includes the Braintree JS client SDK -->
+<script src="https://js.braintreegateway.com/web/dropin/1.22.1/js/dropin.min.js"></script>
+
+<!-- includes jQuery -->
+<script
+	src="http://code.jquery.com/jquery-3.2.1.min.js"
+	crossorigin="anonymous"
+></script>
+
+<label>Select an amount you want to donate</label>
+<input
+	type="number"
+	placeholder="minimum $1"
+	onChange="update_amount(this.value)"
+/>
+<!-- 'this.value' is used to capture the value and send it to the function -->
+
+<div id="dropin-wrapper">
+	<div id="checkout-message"></div>
+	<div id="dropin-container"></div>
+	<button id="submit-button" disabled>Submit payment</button>
+</div>
+
+<script>
+	var button = document.querySelector('#submit-button');
+	var amount = 0;
+	function update_amount(val) {
+		// When updating a global variable, dont use "var amount" inside the function
+		// If you do, you are declarring a local variable called "amount"
+		amount = val;
+		if (amount >= 1) {
+			button.disabled = false;
+		} else {
+			button.disabled = true;
+		}
+	}
+
+	braintree.dropin.create(
+		{
+			authorization: '{{client_token}}', // Uses the client token for authorization
+			container: '#dropin-container',
+		},
+		function (createErr, instance) {
+			button.addEventListener('click', function () {
+				instance.requestPaymentMethod(function (
+					requestPaymentMethodErr,
+					payload
+				) {
+					// When the user clicks on the 'Submit payment' button this code will send the
+					// information to brain tree's server which will return a payment method nonce
+					// it then sends the nonce to our server
+					$.ajax({
+						type: 'POST',
+						url: '/payments/checkout',
+						data: { paymentMethodNonce: payload.nonce, amount: amount },
+					})
+						.done(function (result) {
+							window.location.href = 'http://lvh.me:5000/';
+						})
+						.fail(function (result) {
+							console.log(result);
+							alert('payment failed');
+						});
+				});
+			});
+		}
+	);
+</script>

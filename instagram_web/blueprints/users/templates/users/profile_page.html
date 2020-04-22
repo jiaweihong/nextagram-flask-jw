@@ -1,0 +1,100 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    {% if errors %}
+        <p>{{errors}}</p>
+    {% endif %}
+
+    {% if user.username == current_user.username %}
+        <h2>Welcome to your profile</h2>
+    {% else %}
+        <h2>Welcome to {{user.username}}'s profile</h2>
+    {% endif %}
+    
+    {% if current_user != user and is_following == None and is_waiting_to_approve == None %} 
+        <form action="{{url_for('users.profile_page_followed', username = user.username)}}" method='POST'>
+            <button type="submit">Follow</button>
+        </form>
+    {% elif is_waiting_to_approve %}
+        <h4>Follow request pending</h4>
+    {% elif is_following %}
+        <h4>You are following this account</h4>
+    {% endif %}
+    
+
+    <h3>Followers</h3>
+    <ul>
+        {% if user.followers %}
+            {% for follower in user.followers %}
+                <li>{{follower.username}}</li>
+            {% endfor %}
+        {% else %}
+            <li>No followers</li>
+        {% endif %}
+    </ul>
+
+    <h3>Following</h3>
+    <ul>
+        {% if user.followings %}
+            {% for following in user.followings %}
+                <li>{{following.username}}</li>
+            {% endfor %}
+        {% else %}
+            <li>Following no one</li>
+        {% endif %}
+    </ul>
+    
+    </ul>
+    
+    <h2>Profile Image:</h2>
+    {% if user.profile_image_url %}
+    <img src="{{user.profile_image_url}}">
+    {% else %}
+    <img src="https://us.123rf.com/450wm/pavelstasevich/pavelstasevich1811/pavelstasevich181101028/112815904-stock-vector-no-image-available-icon-flat-vector-illustration.jpg?ver=6">
+    {% endif %}
+
+    <h2>Images:</h2>
+    {% if user.is_public or current_user == user or is_following %}
+        {% if user.images %}
+            {% for image in user.images %}
+                <img src="{{image.image_url}}">
+            {% endfor %}
+        {% else %}
+            <h3>{{user.username}} has not posted any pictures</h3>
+        {% endif %}
+    {% else %}
+        <h4>{{user.username}} is private, you need to follow to see his pictures</h4>
+    {% endif %}
+
+    {% if current_user == user %}
+    <h2>Pending Followers:</h2>
+        <ul>
+            {% if current_user.pending_follower_requests %}
+                {% for pending_follower in current_user.pending_follower_requests %}
+                    <li>
+                        <form action="{{url_for('users.accept_follower_request')}}" method='POST'>
+                                <label>{{pending_follower.username}}</label>
+                                <input type="hidden" name="follower_id" value="{{pending_follower.id}}">
+                                <input type="hidden" name="followed_id" value="{{current_user.id}}">
+                                <button type="submit" class="btn btn-primary">Accept</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li>No pending requests</li>
+            {% endif %}
+        </ul>
+    {% endif %}
+        
+{% endblock %}
+
