@@ -1,6 +1,6 @@
 from models.base_model import db
 from models import *
-import peewee_db_evolve
+import peeweedbevolve
 import os
 
 os.environ['MIGRATION'] = '1'
