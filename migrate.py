@@ -1,5 +1,6 @@
 from models.base_model import db
 import peeweedbevolve
+# make sure to check that the order in which u import stuff makes sense
 from models import *
 import os
 
